@@ -49,14 +49,34 @@ enum Wood{
 
 }
 
+enum Style{
 
-public class FindGuitarTester {
+    A, F;
 
-    // A function to add some guitars to the inventory
+    public String toString(){
+        switch (this) {
+            case A : return "a";
+            case F : return "f";
+            default: return "";
+
+        }
+    }
+
+
+}
+
+
+
+
+public class Tool {
+
+    // A function to add some instruments to the inventory
     private static void initInventory(Inventory inventory){
 
-        inventory.addGuitar("V95693",  1499.95, new GuitarSpec(Builder.FENDER,"Stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER,12));
-        inventory.addGuitar("233123",  1549.95, new GuitarSpec(Builder.FENDER,"Stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER,12));
+        inventory.addInstrument("V95693",  1499.95, new GuitarSpec("Stratocastor" ,Type.ELECTRIC, Builder.FENDER, Wood.ALDER, Wood.ALDER,12));
+        inventory.addInstrument("233123",  1549.95, new GuitarSpec("Stratocastor" ,Type.ELECTRIC, Builder.FENDER, Wood.ALDER, Wood.ALDER,12));
+        inventory.addInstrument("234123",  2000, new MandolinSpec("Stratocastor" ,Type.ELECTRIC, Builder.FENDER, Wood.ALDER, Wood.ALDER,Style.A));
+        inventory.addInstrument("235123",  3021.95, new MandolinSpec("Stratocastor" ,Type.ELECTRIC, Builder.FENDER, Wood.ALDER, Wood.ALDER,Style.F));
     }
 
 
@@ -66,13 +86,15 @@ public class FindGuitarTester {
         initInventory(inventory); // initializing the inventory
 
 
-        List matchingGuitars = inventory.search(new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER, 12));
+        List matchingGuitars = inventory.search(new GuitarSpec("Stratocastor" ,Type.ELECTRIC, Builder.FENDER, Wood.ALDER, Wood.ALDER,12));
+
         if (!matchingGuitars.isEmpty()){
             System.out.println(" You might like these guitars .. ");
             for (Iterator i = matchingGuitars.iterator(); i.hasNext() ;){
 
                 Guitar guitar =  (Guitar)i.next();
-                GuitarSpec spec = guitar.getSpec();
+                GuitarSpec spec = (GuitarSpec)guitar.getSpec();
+
                 System.out.println(
                         " We have a " +
                         spec.getBuilder() + " " + spec.getModel() + " " +

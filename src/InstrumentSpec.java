@@ -1,81 +1,39 @@
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class InstrumentSpec {
 
-    private String model;
-    private Type type;
-    private Builder builder;
-    private Wood backWood, topWood;
+    // Map variable : dynamically store all the properties for any instrument
+    private Map properties;
 
-    public InstrumentSpec(String model, Type type, Builder builder, Wood backWood, Wood topWood) {
-        this.model = model;
-        this.type = type;
-        this.builder = builder;
-        this.backWood = backWood;
-        this.topWood = topWood;
+    public InstrumentSpec(Map properties) {
+        if(properties == null){
+            this.properties = new HashMap();
+        }else {
+            this.properties = new HashMap(properties);
+        }
     }
 
-    public String getModel() {
-        return model;
-    }
+   public Object getProperty(String propertyName){
+        return properties.get(propertyName);
+   }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public Builder getBuilder() {
-        return builder;
-    }
-
-    public void setBuilder(Builder builder) {
-        this.builder = builder;
-    }
-
-    public Wood getBackWood() {
-        return backWood;
-    }
-
-    public void setBackWood(Wood backWood) {
-        this.backWood = backWood;
-    }
-
-    public Wood getTopWood() {
-        return topWood;
-    }
-
-    public void setTopWood(Wood topWood) {
-        this.topWood = topWood;
+    public Map getProperties() {
+        return properties;
     }
 
     // Matches function that takes another spec object and start comparing the values and if matches return true " uses in the search method "
     public boolean matches(InstrumentSpec otherSpec){
 
-        if(builder != otherSpec.builder){
-            return false;
-        }
+        for (Iterator i = otherSpec.getProperties().keySet().iterator(); i.hasNext() ;){
 
-        if(model != null && !model.equals("") && !model.equals(otherSpec.model)){
-            return false;
-        }
+            String propertyName = (String)i.next();
+            if(!properties.get(propertyName).equals(otherSpec.getProperty(propertyName))){
+                return false;
+            }
 
-        if(type != otherSpec.type){
-            return false;
         }
-
-        if(backWood != otherSpec.backWood){
-            return false;
-        }
-
-        if(topWood != otherSpec.topWood){
-            return false;
-        }
-
         return true;
 
     }
